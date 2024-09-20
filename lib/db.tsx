@@ -59,3 +59,17 @@ export const updateIncome = async(income:number) => {
     return { error: "Failed to update income" }
   }
 }
+
+export const deleteExpense = async(id:string) => {
+  try {
+    await prisma.expense.delete({
+      where: {
+        id,
+      },
+    })
+    revalidatePath("/budget")
+  } catch (error) {
+    console.error("Error deleting expense:", error)
+    return { error: "Failed to delete expense" }
+  }
+}

@@ -8,6 +8,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Progress } from "@/components/ui/progress"
 import { ArrowUpIcon, ArrowDownIcon, PiggyBankIcon } from 'lucide-react'
 import IncomeUpdateDialog from './UpdateIncome'
+import DeleteExpenseButton from './DeleteButton'
+import { deleteExpense } from '@/lib/db'
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
@@ -218,10 +220,11 @@ export default function BudgetDisplay({ data }:BudgetDisplayProps) {
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.3, delay: index * 0.1 }}
-                        className="flex justify-between items-center ml-5"
+                        className="grid grid-cols-3 w-full items-center ml-5"
                       >
                         <span>{expense.name}</span>
-                        <span className="font-semibold">${expense.amount.toLocaleString()}</span>
+                        <span className="font-semibold ml-auto">${expense.amount.toLocaleString()}</span>
+                        <span className='ml-auto mr-5'><DeleteExpenseButton id={expense.id} onDelete={deleteExpense} /></span>
                       </motion.li>
                     )
                   ))}
