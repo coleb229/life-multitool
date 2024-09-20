@@ -7,6 +7,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { ArrowUpIcon, ArrowDownIcon, PiggyBankIcon } from 'lucide-react'
+import IncomeUpdateDialog from './UpdateIncome'
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
@@ -30,11 +31,27 @@ export default function BudgetDisplay({ data }:BudgetDisplayProps) {
     setIsVisible(true)
   }, [])
 
+  const housingTotal = budget.expenseCategories.filter((expense:any) => expense.category === 'housing').reduce((acc:number, expense:any) => acc + expense.amount, 0)
+  const foodTotal = budget.expenseCategories.filter((expense:any) => expense.category === 'food').reduce((acc:number, expense:any) => acc + expense.amount, 0)
+  const transportationTotal = budget.expenseCategories.filter((expense:any) => expense.category === 'transportation').reduce((acc:number, expense:any) => acc + expense.amount, 0)
+  const utilitiesTotal = budget.expenseCategories.filter((expense:any) => expense.category === 'utilities').reduce((acc:number, expense:any) => acc + expense.amount, 0)
+  const entertainmentTotal = budget.expenseCategories.filter((expense:any) => expense.category === 'entertainment').reduce((acc:number, expense:any) => acc + expense.amount, 0)
+  const otherTotal = budget.expenseCategories.filter((expense:any) => expense.category === 'other').reduce((acc:number, expense:any) => acc + expense.amount, 0)
+
+  const categories = [
+    { name: 'Housing', amount: housingTotal },
+    { name: 'Food', amount: foodTotal },
+    { name: 'Transportation', amount: transportationTotal },
+    { name: 'Utilities', amount: utilitiesTotal },
+    { name: 'Entertainment', amount: entertainmentTotal },
+    { name: 'Other', amount: otherTotal },
+  ]
+
   const chartData = {
-    labels: budget.expenseCategories.map((category: { name: string }) => category.name),
+    labels: categories.map((category) => category.name),
     datasets: [
       {
-        data: budget.expenseCategories.map((category: { amount: number }) => category.amount),
+        data: categories.map((category) => category.amount),
         backgroundColor: [
           '#FF6384',
           '#36A2EB',
@@ -85,8 +102,6 @@ export default function BudgetDisplay({ data }:BudgetDisplayProps) {
     },
   }
 
-  const categories = ['Housing', 'Food', 'Transportation', 'Utilities', 'Entertainment', 'Other']
-
   return (
     <motion.div
       className="container mx-auto p-4 space-y-6"
@@ -106,7 +121,9 @@ export default function BudgetDisplay({ data }:BudgetDisplayProps) {
               <ArrowUpIcon className="h-4 w-4 text-green-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">${budget.income.toLocaleString()}</div>
+              <IncomeUpdateDialog>
+                <div className="text-2xl font-bold">${budget.income.toLocaleString()}</div>
+              </IncomeUpdateDialog>
             </CardContent>
           </Card>
         </motion.div>
@@ -183,32 +200,32 @@ export default function BudgetDisplay({ data }:BudgetDisplayProps) {
           <CardContent>
             <ul className="space-y-2">
               {categories.map((category, index) => (
-                <>
+                <div key={category.name}>
                   <motion.li
-                    key={category}
+                    key={category.name}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.3, delay: index * 0.1 }}
                     className="flex justify-between items-center font-semibold"
                   >
-                    <span>{category}</span>
-                    <span className="font-semibold">${budget.expenseCategories.find((cat: { name: string }) => cat.name === category)?.amount.toLocaleString() || 0}</span>
+                    <span>{category.name}</span>
+                    <span className="font-semibold">${category.amount}</span>
                   </motion.li>
                   {budget.expenseCategories.map((expense:any, index:number) => (
-                    expense.category === category.toLowerCase() && (
+                    expense.category === category.name.toLowerCase() && (
                       <motion.li
                         key={expense.name}
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.3, delay: index * 0.1 }}
-                        className="flex justify-between items-center ml-10"
+                        className="flex justify-between items-center ml-5"
                       >
                         <span>{expense.name}</span>
                         <span className="font-semibold">${expense.amount.toLocaleString()}</span>
                       </motion.li>
                     )
                   ))}
-                </>
+                </div>
               ))}
             </ul>
           </CardContent>

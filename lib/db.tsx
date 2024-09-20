@@ -33,3 +33,29 @@ export const addExpense = async(formData:FormData) => {
     return { error: "Failed to add expense" }
   }
 }
+
+export const updateIncome = async(income:number) => {
+  try {
+    const session = await getServerSession(authOptions)
+    const userId = await prisma.user.findUnique({
+      where: {
+        email: session?.user?.email as string,
+      },
+    })
+    if (!userId) {
+      throw new Error("User not found")
+    }
+    await prisma.user.update({
+      where: {
+        id: userId.id,
+      },
+      data: {
+        income,
+      },
+    })
+    revalidatePath("/budget")
+  } catch (error) {
+    console.error("Error updating income:", error)
+    return { error: "Failed to update income" }
+  }
+}
