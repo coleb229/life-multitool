@@ -122,7 +122,7 @@ export default function BudgetDisplay({ data }:BudgetDisplayProps) {
             </CardHeader>
             <CardContent>
               <IncomeUpdateDialog>
-                <div className="text-2xl font-bold">${budget.income.toLocaleString()}</div>
+                <div className="text-lg 2xl:text-2xl font-bold">${budget.income.toLocaleString()}</div>
               </IncomeUpdateDialog>
             </CardContent>
           </Card>
@@ -134,7 +134,7 @@ export default function BudgetDisplay({ data }:BudgetDisplayProps) {
               <ArrowDownIcon className="h-4 w-4 text-red-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">${budget.expenses.toLocaleString()}</div>
+              <div className="text-lg 2xl:text-2xl font-bold">${budget.expenses.toLocaleString()}</div>
             </CardContent>
           </Card>
         </motion.div>
@@ -145,7 +145,7 @@ export default function BudgetDisplay({ data }:BudgetDisplayProps) {
               <PiggyBankIcon className="h-4 w-4 text-blue-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">${budget.savings.toLocaleString()}</div>
+              <div className="text-lg 2xl:text-2xl font-bold">${budget.savings.toLocaleString()}</div>
             </CardContent>
           </Card>
         </motion.div>
