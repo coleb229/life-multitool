@@ -149,7 +149,7 @@ export default function BudgetDisplay({ data }:BudgetDisplayProps) {
               <Progress value={(budget.expenses / budget.income) * 100} className="h-4" />
             </motion.div>
             <div className="mt-2 text-sm text-gray-600">
-              You've spent {((budget.expenses / budget.income) * 100).toFixed(1)}% of your income
+              You{"'"}ve spent {((budget.expenses / budget.income) * 100).toFixed(1)}% of your income
             </div>
           </CardContent>
         </Card>
@@ -194,7 +194,7 @@ export default function BudgetDisplay({ data }:BudgetDisplayProps) {
                     <span>{category}</span>
                     <span className="font-semibold">${budget.expenseCategories.find((cat: { name: string }) => cat.name === category)?.amount.toLocaleString() || 0}</span>
                   </motion.li>
-                  {budget.expenseCategories.map((expense:any, index:any) => (
+                  {budget.expenseCategories.map((expense:any, index:number) => (
                     expense.category === category.toLowerCase() && (
                       <motion.li
                         key={expense.name}
