@@ -10,7 +10,19 @@ import { ArrowUpIcon, ArrowDownIcon, PiggyBankIcon } from 'lucide-react'
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
-export default function BudgetDisplay({ data }:any) {
+interface BudgetDisplayProps {
+  data: {
+    income: number
+    expenses: number
+    savings: number
+    expenseCategories: {
+      name: string
+      amount: number
+    }[]
+  }
+}
+
+export default function BudgetDisplay({ data }:BudgetDisplayProps) {
   const [budget] = useState(data)
   const [isVisible, setIsVisible] = useState(false)
 
@@ -19,10 +31,10 @@ export default function BudgetDisplay({ data }:any) {
   }, [])
 
   const chartData = {
-    labels: budget.expenseCategories.map((category: { name: any }) => category.name),
+    labels: budget.expenseCategories.map((category: { name: string }) => category.name),
     datasets: [
       {
-        data: budget.expenseCategories.map((category: { amount: any }) => category.amount),
+        data: budget.expenseCategories.map((category: { amount: number }) => category.amount),
         backgroundColor: [
           '#FF6384',
           '#36A2EB',
