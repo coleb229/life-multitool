@@ -61,14 +61,8 @@ export default function UpdateChapterContent({ chapterId, data }: { chapterId: s
                 <X size={24} />
               </button>
               <div className="mt-8 flex-grow overflow-auto">
-                <h2 className="mb-4 mt-8 text-2xl font-bold">Preview</h2>
-                {/* Placeholder for preview window */}
-                <div className="h-64 rounded-lg border-2 border-dashed border-gray-300 p-4">
-                  <div className="bg-[#f2f2f2] rounded-lg h-full text-black tiptap" dangerouslySetInnerHTML={{ __html: content as string }} />
-                </div>
-                <h2 className="mb-4 text-2xl font-bold">Rich Text Editor</h2>
                 {/* Placeholder for rich text editor */}
-                <div className="h-64 rounded-lg border-2 border-dashed border-gray-300 p-4">
+                <div className="h-full rounded-lg border-2 border-dashed border-gray-300 p-4">
                   <Editor name='content' content={content} setContent={setContent} onSubmit={handleSubmit} />
                 </div>
               </div>

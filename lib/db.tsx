@@ -123,13 +123,15 @@ export const addChapter = async(formData:FormData, bookId:string) => {
 }
 
 export const updateChapter = async(formData:FormData, chapterId:string) => {
+  const content = formData.get("content") as string
+  const fixedContent = content.replace("<p></p>", "<br>")
   try {
     await prisma.chapter.update({
       where: {
         id: chapterId,
       },
       data: {
-        content: formData.get("content") as string,
+        content: fixedContent,
       },
     })
     revalidatePath(`/journal/${chapterId}`)
