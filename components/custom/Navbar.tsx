@@ -4,10 +4,11 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
-import { Wallet, Calendar, Clock, Wrench, Menu, X } from 'lucide-react'
+import { Wallet, Calendar, Clock, Wrench, Menu, X, BookOpenText } from 'lucide-react'
 
 const navItems = [
   { icon: Wallet, label: 'Budget', href: '/budget' },
+  { icon: BookOpenText, label: 'Book Journal', href: '/journal' },
   { icon: Clock, label: 'Planner', href: '/planner' },
   { icon: Calendar, label: 'Calendar', href: '/calendar' },
   { icon: Wrench, label: 'Tools', href: '/tools' },

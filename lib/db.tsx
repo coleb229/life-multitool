@@ -73,3 +73,68 @@ export const deleteExpense = async(id:string) => {
     return { error: "Failed to delete expense" }
   }
 }
+
+export const addBook = async(formData:FormData) => {
+  const session = await getServerSession(authOptions)
+  const userId = await prisma.user.findUnique({
+    where: {
+      email: session?.user?.email as string,
+    },
+  })
+  if (!userId) {
+    throw new Error("User not found")
+  }
+  try {
+    await prisma.book.create({
+      data: {
+        title: formData.get("bookTitle") as string,
+        author: formData.get("bookAuthor") as string,
+        user: {
+          connect: {
+            id: userId.id,
+          },
+        },
+      },
+    })
+    revalidatePath("/journal")
+  } catch (error) {
+    console.error("Error adding book:", error)
+    return { error: "Failed to add book" }
+  }
+}
+
+export const addChapter = async(formData:FormData, bookId:string) => {
+  try {
+    await prisma.chapter.create({
+      data: {
+        title: formData.get("chapterTitle") as string,
+        content: '',
+        book: {
+          connect: {
+            id: bookId,
+          },
+        },
+    }})
+    revalidatePath(`/journal/${bookId}`)
+  } catch (error) {
+    console.error("Error adding chapter:", error)
+    return { error: "Failed to add chapter" }
+  }
+}
+
+export const updateChapter = async(formData:FormData, chapterId:string) => {
+  try {
+    await prisma.chapter.update({
+      where: {
+        id: chapterId,
+      },
+      data: {
+        content: formData.get("content") as string,
+      },
+    })
+    revalidatePath(`/journal/${chapterId}`)
+  } catch (error) {
+    console.error("Error updating chapter:", error)
+    return { error: "Failed to update chapter" }
+  }
+}
