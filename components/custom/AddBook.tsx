@@ -16,7 +16,7 @@ export default function AddBookDialog() {
 
   const handleSubmit = async(formData:FormData) => {
     const result = await addBook(formData)
-    if (result?.error) {
+    if (!result?.error) {
       toast({
         title: 'Book added successfully',
         description: 'The book has been added to your journal.',

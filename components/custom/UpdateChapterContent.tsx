@@ -183,7 +183,7 @@ const Editor = ({ content, setContent, onSubmit }:any) => {
       <form action={onSubmit}>
         <input type='hidden' name='content' value={content} />
         <div className='h-48 overflow-y-auto'>
-          <EditorContent editor={editor} className='bg-[#f2f2f2] text-black' />
+          <EditorContent editor={editor} className='bg-[#f2f2f2] text-black text-xs' />
         </div>
         <button type='submit' className='bg-primary hover:bg-primary/90 text-white p-2 rounded-md mt-4'>
           Save
