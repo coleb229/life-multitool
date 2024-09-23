@@ -60,9 +60,9 @@ export default function UpdateChapterContent({ chapterId, data }: { chapterId: s
               >
                 <X size={24} />
               </button>
-              <div className="mt-8 flex-grow overflow-auto">
+              <div className="mt-8 overflow-auto">
                 {/* Placeholder for rich text editor */}
-                <div className="h-full rounded-lg border-2 border-dashed border-gray-300 p-4">
+                <div className="h-full rounded-lg p-4">
                   <Editor name='content' content={content} setContent={setContent} onSubmit={handleSubmit} />
                 </div>
               </div>
@@ -94,7 +94,7 @@ const MenuBar = ({ editor }: any) => {
   }
 
   return (
-    <div className="menu-bar flex justify-between">
+    <div className="fixed top-10 w-3/4 bg-black p-4 flex justify-between">
       <button
         onClick={() => editor.chain().focus().toggleBold().run()}
         disabled={!editor.can().chain().focus().toggleBold().run()}
@@ -176,7 +176,7 @@ const Editor = ({ content, setContent, onSubmit }:any) => {
       <MenuBar editor={editor} />
       <form action={onSubmit}>
         <input type='hidden' name='content' value={content} />
-        <div className='h-48 overflow-y-auto'>
+        <div className=''>
           <EditorContent editor={editor} className='bg-[#f2f2f2] text-black text-xs' />
         </div>
         <button type='submit' className='bg-primary hover:bg-primary/90 text-white p-2 rounded-md mt-4'>
