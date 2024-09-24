@@ -7,36 +7,31 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Button } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
 
-interface DeleteExpenseButtonProps {
+interface DeleteButtonProps {
   id: string
   onDelete: any
 }
 
-export default function DeleteExpenseButton({ onDelete, id }: DeleteExpenseButtonProps) {
+export default function DeleteButton({ onDelete, id }: DeleteButtonProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
   const { toast } = useToast()
 
   const handleDelete = async () => {
     setIsDeleting(true)
-    try {
-      await onDelete(id)
-
+    const result = await onDelete(id)
+    if (!result?.error) {
       toast({
-        title: "Expense Deleted",
-        description: `Expense with ID ${id} has been deleted.`,
+        title: 'Data deleted successfully',
+        description: 'The data has been deleted.',
       })
-      setIsOpen(false)
-    } catch (error) {
-      console.error("Error deleting expense:", error)
+    } else {
       toast({
-        title: "Error",
-        description: "Failed to delete the expense. Please try again.",
-        variant: "destructive",
+        title: 'An error occurred',
+        description: 'There was a problem deleting the data.',
       })
-    } finally {
-      setIsDeleting(false)
     }
+    setIsDeleting(false)
   }
 
   return (
@@ -48,14 +43,14 @@ export default function DeleteExpenseButton({ onDelete, id }: DeleteExpenseButto
           className="text-red-500 hover:text-red-700 hover:bg-red-100 transition-colors duration-200"
         >
           <Trash2 className="h-4 w-4" />
-          <span className="sr-only">Delete expense</span>
+          <span className="sr-only">Delete data</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] bg-white">
         <DialogHeader>
           <DialogTitle className='text-primary'>Confirm Deletion</DialogTitle>
           <DialogDescription>
-            Are you sure you want to delete this expense? This action cannot be undone.
+            Are you sure you want to delete this data? This action cannot be undone.
           </DialogDescription>
         </DialogHeader>
         <div className="flex justify-end space-x-2 mt-4">

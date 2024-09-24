@@ -8,7 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Progress } from "@/components/ui/progress"
 import { ArrowUpIcon, ArrowDownIcon, PiggyBankIcon } from 'lucide-react'
 import IncomeUpdateDialog from './UpdateIncome'
-import DeleteExpenseButton from './DeleteButton'
+import DeleteButton from './DeleteButton'
 import { deleteExpense } from '@/lib/db'
 
 ChartJS.register(ArcElement, Tooltip, Legend)
@@ -224,7 +224,7 @@ export default function BudgetDisplay({ data }:BudgetDisplayProps) {
                       >
                         <span>{expense.name}</span>
                         <span className="font-semibold ml-auto">${expense.amount.toLocaleString()}</span>
-                        <span className='ml-auto mr-5'><DeleteExpenseButton id={expense.id} onDelete={deleteExpense} /></span>
+                        <span className='ml-auto mr-5'><DeleteButton id={expense.id} onDelete={deleteExpense} /></span>
                       </motion.li>
                     )
                   ))}

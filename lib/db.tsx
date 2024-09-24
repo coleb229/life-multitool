@@ -140,3 +140,35 @@ export const updateChapter = async(formData:FormData, chapterId:string) => {
     return { error: "Failed to update chapter" }
   }
 }
+
+export const addKeyword = async(formData:FormData, chapterId:string) => {
+  try {
+    await prisma.keyword.create({
+      data: {
+        word: formData.get("keyword") as string,
+        definition: formData.get("definition") as string,
+        chapter: {
+          connect: {
+            id: chapterId,
+          },
+        },
+    }})
+    revalidatePath(`/journal/${chapterId}`)
+  } catch (error) {
+    console.error("Error adding keyword:", error)
+    return { error: "Failed to add keyword" }
+  }
+}
+
+export const deleteKeyword = async(id:string) => {
+  try {
+    await prisma.keyword.delete({
+      where: {
+        id,
+      },
+    })
+  } catch (error) {
+    console.error("Error deleting keyword:", error)
+    return { error: "Failed to delete keyword" }
+  }
+}

@@ -114,8 +114,20 @@ model Chapter {
   bookId      String   @db.ObjectId
   title       String
   content     String
+  keywords    Keyword[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
   book Book @relation(fields: [bookId], references: [id], onDelete: Cascade)
+}
+
+model Keyword {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  chapterId   String   @db.ObjectId
+  word        String
+  definition  String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  chapter Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
 }

@@ -24,7 +24,6 @@ export default function UpdateChapterContent({ chapterId, data }: { chapterId: s
   const bookId = data.bookId
 
   const handleSubmit = async(formData:FormData) => {
-    console.log(formData)
     const result = await updateChapter(formData, chapterId)
     if(!result?.error) {
       toast({
@@ -40,7 +39,6 @@ export default function UpdateChapterContent({ chapterId, data }: { chapterId: s
     setIsOpen(false)
     redirect(`/journal/${bookId}/${chapterId}`)
   }
-  console.log(data.content)
 
   return (
     <div className="">
